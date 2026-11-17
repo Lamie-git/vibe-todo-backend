@@ -1,6 +1,6 @@
 const API_BASE_URL = window.location.port === "5500"
   ? `${window.location.protocol}//${window.location.hostname}:5000/api/todos`
-  : "/api/todos";
+  : "https://port-0-vibe-todo-backend-mwkw1laq1d65f34e.sel3.cloudtype.app/api/todos";
 
 const addForm = document.querySelector("#add-form");
 const newTodoInput = document.querySelector("#new-todo");

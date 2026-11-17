@@ -4,6 +4,7 @@ const path = require("node:path");
 const todoCollectionHandler = require("./api/todos");
 const todoItemHandler = require("./api/todos/[id]");
 const getTodoCollection = require("./routers/todo-collection");
+const handleTodoCors = require("./routers/todo-cors");
 
 const envPath = path.join(__dirname, ".env");
 const dotenvResult = require("dotenv").config({ path: envPath });
@@ -18,11 +19,6 @@ const contentTypes = {
   ".html": "text/html; charset=utf-8",
   ".js": "text/javascript; charset=utf-8"
 };
-const allowedCorsOrigins = new Set([
-  "http://localhost:5500",
-  "http://127.0.0.1:5500"
-]);
-
 const server = http.createServer((request, response) => {
   let pathname;
   let requestUrl;
@@ -38,7 +34,7 @@ const server = http.createServer((request, response) => {
   if (pathname === "/api/todos" || pathname.startsWith("/api/todos/")) {
     const origin = request.headers.origin;
 
-    if (allowedCorsOrigins.has(origin)) {
+    if (handleTodoCors.isAllowedOrigin(origin)) {
       response.setHeader("Access-Control-Allow-Origin", origin);
       response.setHeader("Vary", "Origin");
     }
