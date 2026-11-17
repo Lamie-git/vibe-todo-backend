@@ -1,17 +1,18 @@
 const fs = require("node:fs");
 const http = require("node:http");
 const path = require("node:path");
-const todoCollectionHandler = require("../api/todos");
-const todoItemHandler = require("../api/todos/[id]");
+const todoCollectionHandler = require("./api/todos");
+const todoItemHandler = require("./api/todos/[id]");
 const getTodoCollection = require("./routers/todo-collection");
 
 const envPath = path.join(__dirname, ".env");
 const dotenvResult = require("dotenv").config({ path: envPath });
-if (dotenvResult.error) throw dotenvResult.error;
+if (dotenvResult.error && dotenvResult.error.code !== "ENOENT") throw dotenvResult.error;
 
 const port = Number(process.env.PORT) || 5000;
 const mongoUri = (process.env.MONGO_URI || process.env.MONGODB_URI || "").trim();
 const root = __dirname;
+const publicFiles = new Set(["/index.html", "/todo.html", "/todo.css", "/todo.js"]);
 const contentTypes = {
   ".css": "text/css; charset=utf-8",
   ".html": "text/html; charset=utf-8",
@@ -71,6 +72,11 @@ const server = http.createServer((request, response) => {
   }
 
   const requestedPath = pathname === "/" ? "/index.html" : pathname;
+  if (!publicFiles.has(requestedPath)) {
+    response.writeHead(404, { "Content-Type": "text/plain; charset=utf-8" });
+    response.end("not_found");
+    return;
+  }
   const filePath = path.resolve(root, `.${requestedPath}`);
   const relativePath = path.relative(root, filePath);
   if (relativePath === ".." || relativePath.startsWith(`..${path.sep}`) || path.isAbsolute(relativePath)) {
