@@ -1,0 +1,7 @@
+{
+  "rewrites": [
+    { "source": "/", "destination": "/todo-firebase/index.html" },
+    { "source": "/todo.css", "destination": "/todo-firebase/todo.css" },
+    { "source": "/todo.js", "destination": "/todo-firebase/todo.js" }
+  ]
+}

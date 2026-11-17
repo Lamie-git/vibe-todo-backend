@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f5f7f2">
+  <meta name="description" content="오늘 할 일을 기록하고 관리해 보세요.">
+  <title>오늘의 할 일</title>
+  <link rel="stylesheet" href="todo.css">
+  <script type="module" src="todo.js"></script>
+</head>
+<body>
+  <main class="todo-app">
+    <header class="page-header">
+      <p class="eyebrow">MY DAILY PLANNER</p>
+      <h1>오늘의 할 일<span aria-hidden="true">.</span></h1>
+      <p class="today" id="today"></p>
+    </header>
+
+    <section class="todo-panel" aria-labelledby="list-title">
+      <form class="add-form" id="add-form">
+        <label class="sr-only" for="new-todo">새 할 일</label>
+        <input
+          id="new-todo"
+          name="todo"
+          type="text"
+          maxlength="120"
+          placeholder="새로운 할 일을 입력하세요"
+          autocomplete="off"
+          required
+        >
+        <button class="add-button" type="submit">추가 <span aria-hidden="true">+</span></button>
+      </form>
+
+      <div class="list-heading">
+        <div>
+          <h2 id="list-title">나의 목록</h2>
+          <p id="todo-count" class="todo-count" aria-live="polite"></p>
+        </div>
+        <div class="filters" role="group" aria-label="할 일 필터">
+          <button class="filter-button is-active" type="button" data-filter="all" aria-pressed="true">전체</button>
+          <button class="filter-button" type="button" data-filter="active" aria-pressed="false">진행 중</button>
+          <button class="filter-button" type="button" data-filter="completed" aria-pressed="false">완료</button>
+        </div>
+      </div>
+
+      <ul class="todo-list" id="todo-list" aria-label="할 일 목록"></ul>
+      <div class="empty-state" id="empty-state">
+        <span class="empty-icon" aria-hidden="true">✓</span>
+        <p id="empty-message">아직 할 일이 없어요.<br>새로운 할 일을 추가해 보세요.</p>
+      </div>
+      <p class="storage-message" id="storage-message" role="status" aria-live="polite"></p>
+    </section>
+  </main>
+
+  <dialog class="edit-dialog" id="edit-dialog" aria-labelledby="edit-title">
+    <form id="edit-form">
+      <h2 id="edit-title">할 일 수정</h2>
+      <label for="edit-todo">할 일 내용</label>
+      <input id="edit-todo" name="todo" type="text" maxlength="120" required>
+      <p class="dialog-error" id="edit-error" role="status" aria-live="polite"></p>
+      <div class="dialog-actions">
+        <button class="cancel-button" id="cancel-edit" type="button">취소</button>
+        <button class="save-button" type="submit">저장</button>
+      </div>
+    </form>
+  </dialog>
+</body>
+</html>
